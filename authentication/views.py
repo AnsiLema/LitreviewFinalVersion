@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import View
 
-from . import forms
 
 def logout_user(request):
     logout(request)
     return redirect("login")
+
+
 
 def login_page(request):
     form = forms.LoginForm()
@@ -19,9 +21,8 @@ def login_page(request):
             )
             if user is not None:
                 login(request, user)
-                message = f"Bienvenue {user.username}!"
-            else:
-                message = 'Identifiant ou Mot de Passe Invalide !'
+                return redirect('home')
+        message = 'Identifiant ou Mot de Passe Invalide !'
     return render(
         request, 'authentication/login.html', {'form': form, 'message': message})
 
