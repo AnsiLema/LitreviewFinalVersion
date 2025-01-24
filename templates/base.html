@@ -9,8 +9,11 @@
     {% block content %}
     {% endblock %}
     {% if user.is_authenticated %}
-<p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">
-    Se déconnecter</a></p>
+<p>Vous êtes connecté en tant que {{ request.user }}.
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Se déconnecter</button>
+    </form>
     {% endif %}
 </body>
 </html>
