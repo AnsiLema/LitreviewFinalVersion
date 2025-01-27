@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>Vous êtes connecté !</p>
+    <h2>Accueil</h2>
+    <h3>Bienvenue sur la page d'accueil</h3>
+    <p>Votre Flux</p>
+    {% for ticket in tickets %}
+        {{ ticket.title }}
+        {{ ticket.description }}
+        <img src="{{ ticket.image.url }}" alt="Image du ticket" width="100">
+        <p>Par {{ ticket.user.username }} le {{ ticket.time_created }}</p>
+    {% endfor %}
 {% endblock content %}

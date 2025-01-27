@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 
 import authentication.views
 import reviews.views
+import tickets.views
+import tickets
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,7 +32,9 @@ urlpatterns = [
                                ), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', authentication.views.signup_page, name='signup'),
-    path('home/', reviews.views.home, name='home')
+    path('home/', reviews.views.home, name='home'),
+    path('', tickets.views.ticket_list, name='ticket_list'),
+    path('ticket/create/', tickets.views.ticket_create, name='ticket_create'),
 ]
 if settings.DEBUG:
     urlpatterns += static(
