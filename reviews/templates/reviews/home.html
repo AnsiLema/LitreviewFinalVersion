@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
     <h2>Accueil</h2>
+    <a href="{% url 'ticket_create' %}">Demander une Critique</a>
+    <a href="{% url 'ticket_and_review_upload' %}">Ajouter une Critique</a>
     <h3>Bienvenue sur la page d'accueil</h3>
     <p>Votre Flux</p>
     {% for ticket in tickets %}

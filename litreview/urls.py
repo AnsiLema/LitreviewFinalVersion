@@ -35,6 +35,8 @@ urlpatterns = [
     path('home/', reviews.views.home, name='home'),
     path('', tickets.views.ticket_list, name='ticket_list'),
     path('ticket/create/', tickets.views.ticket_create, name='ticket_create'),
+    path('ticket/review/create/', tickets.views.ticket_and_review_upload, name='ticket_and_review_upload'),
+    path('ticket/<int:ticket_id>/', tickets.views.ticket_detail, name='ticket_detail'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

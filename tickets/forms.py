@@ -1,5 +1,4 @@
 from django import forms
-from django.utils.timezone import deactivate
 
 from . import models
 
@@ -12,3 +11,8 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = models.Image
         fields = ["image", "caption"]
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = ["headline", "body", "rating", "image", ]
