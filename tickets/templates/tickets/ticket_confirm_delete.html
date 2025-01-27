@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Supprimer un Ticket</h1>
+<p>Voulez-vous vraiment supprimer ce ticket ?</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit" value="Envoyer">Supprimer</button>
+    <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

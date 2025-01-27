@@ -1,13 +1,13 @@
-{% extends "reviews/ base.html" %}
-
+{% extends "base.html" %}
 {% block content %}
 
-<h1>Mise à jour du Ticket</h1>
+<h1>Modifier un Ticket</h1>
 
-<form action="" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Envoyer">
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" value="Envoyer">Enregistrer les modifications</button>
+    <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Annuler</a>
 </form>
 
 {% endblock %}
