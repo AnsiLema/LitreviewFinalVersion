@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>Liste des Billets</h1>
+<a href="{% url 'home' %}">Accueil</a>
 <ul>
     {% for ticket in tickets %}
         <li>
