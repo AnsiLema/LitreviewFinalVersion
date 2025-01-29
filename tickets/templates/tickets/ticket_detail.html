@@ -8,6 +8,24 @@
         <a href="{% url 'ticket_update' ticket.id %}">Modifier</a>
         <a href="{% url 'ticket_delete' ticket.id %}">Supprimer</a>
     {% endif %}
+    <h3>Critiques</h3>
+    {% for review in reviews %}
+        <div>
+            <p><strong>Par {{ review.user }}</strong></p>
+            <div>
+                <p>{{ review.headline }}</p>
+                <p>{{ review.body }}</p>
+                <p>{{ review.rating }}</p>
+                <img src="{{ review.image.url }}">
+            </div>
+            {% if review.user == user %}
+                <a href="{% url 'review_update' ticket.id review.id %}">Modifier la critique</a>
+            {% endif %}
+        </div>
+        <hr>
+    {% empty %}
+        <p>Aucune critique pour le moment.</p>
+    {% endfor %}
     {% if user != ticket.user %}
         <a href="{% url 'review_create' ticket.id %}">Répondre avec une critique</a>
     {% endif %}

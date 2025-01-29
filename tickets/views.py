@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TicketForm
 from .models import Ticket, Review
@@ -51,7 +52,8 @@ def ticket_delete(request, ticket_id):
 @login_required
 def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    return render(request, "tickets/ticket_detail.html", {"ticket": ticket})
+    reviews = Review.objects.filter(ticket=ticket)
+    return render(request, "tickets/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
 
 
 def image_upload(request):
@@ -105,3 +107,20 @@ def review_create(request, ticket_id):
             return redirect("ticket_detail", ticket_id)
 
     return render(request, "tickets/review_create.html", {"form": form, "ticket": ticket})
+
+@login_required
+def review_update(request, ticket_id, review_id):
+    review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
+    if review.user != request.user:
+        return HttpResponseForbidden("Vous ne pouyez modifier que vos propres critiques.")
+    form = forms.ReviewForm(instance=review)
+    if request.method == "POST":
+        form = forms.ReviewForm(request.POST, request.FILES, instance=review)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.save()
+            return redirect("ticket_detail", review.ticket.id)
+        else:
+            form = forms.ReviewForm(instance=review)
+
+    return render(request, "tickets/review_update.html", {"form": form, "review": review})

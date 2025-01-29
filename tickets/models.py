@@ -29,4 +29,8 @@ class Review(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.headline
+        return (self.headline,
+                self.rating,
+                self.user,
+                self.time_created,
+                self.image)
