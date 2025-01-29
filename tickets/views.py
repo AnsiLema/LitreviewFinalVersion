@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TicketForm
-from .models import Ticket
+from .models import Ticket, Review
 from django.contrib.auth.decorators import login_required
 
 from . import forms
@@ -87,3 +87,21 @@ def ticket_and_review_upload(request):
         "review_form": review_form,
     }
     return render(request, "tickets/ticket_and_review_upload.html", context=context)
+
+@login_required
+def review_create(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    if Review.objects.filter(ticket=ticket, user=request.user).exists():
+        return redirect("ticket_detail", ticket_id)
+
+    form = forms.ReviewForm(request.POST, request.FILES)
+    if request.method == "POST":
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect("ticket_detail", ticket_id)
+
+    return render(request, "tickets/review_create.html", {"form": form, "ticket": ticket})

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'ticket_list' %}">Retour</a>
+<h2>Créer une Critique</h2>
+<p>Vous êtes en train de créer une critique en réponse à :</p>
+<p></p>
+<p>{{ ticket.user }} a demander une critique de : </p>
+<p>{{ ticket.title }}</p>
+<p>{{ ticket.description }}</p>
+<img src="{{ ticket.image.url }}" alt="couverture de {{ ticket.title }}">
+<form method="post" enctype="multipart/form-data">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Envoyer</button>
+</form>
+
+<a href="{% url 'ticket_list' %}">Annuler</a>
+{% endblock %}
