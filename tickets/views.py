@@ -55,7 +55,7 @@ def ticket_detail(request, ticket_id):
     reviews = Review.objects.filter(ticket=ticket)
     return render(request, "tickets/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
 
-
+"""
 def image_upload(request):
     form = forms.ImageForm()
     if request.method == "POST":
@@ -66,7 +66,7 @@ def image_upload(request):
         return redirect("ticket_list")
 
     return render(request, "tickets/image_upload.html", {"form": form})
-
+"""
 
 @login_required
 def ticket_and_review_upload(request):

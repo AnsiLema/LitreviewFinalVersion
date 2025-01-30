@@ -8,7 +8,11 @@
     {% for ticket in tickets %}
         <a href="{% url 'ticket_detail' ticket.id %}">{{ ticket.title }}</a>
         {{ ticket.description }}
-        <img src="{{ ticket.image.url }}" alt="Image du ticket" width="100">
+        {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" alt="Image du ticket" width="100">
+        {% else %}
+            <p>Pas d'image disponible</p>
+        {% endif %}
         <p>Par {{ ticket.user.username }} le {{ ticket.time_created }}</p>
     {% endfor %}
 {% endblock content %}

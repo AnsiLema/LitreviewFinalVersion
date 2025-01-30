@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Demande : {{ ticket.title }}</h2>
-    <img src="{{ ticket.image.url }}" alt="">
+    {% if ticket.image %}
+        <img src="{{ ticket.image.url }}" alt="">
+    {% else %}
+        <p>Aucune image</p>
+    {% endif %}
     <p>{{ ticket.description }}</p>
     <p>Crée le {{ ticket.time_created }} par {{ ticket.user }}</p>
     {% if ticket.user == user %}
