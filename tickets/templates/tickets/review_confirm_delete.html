@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Supprimer une Critique</h1>
+<p>Voulez-vous vraiment supprimer cette critique ?</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit" value="Envoyer">Supprimer</button>
+    <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

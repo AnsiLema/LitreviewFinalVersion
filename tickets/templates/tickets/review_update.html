@@ -7,6 +7,8 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" value="Envoyer">Enregistrer les modifications</button>
+    <hr>
+
     <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Annuler</a>
 </form>
 

@@ -20,6 +20,7 @@
             </div>
             {% if review.user == user %}
                 <a href="{% url 'review_update' ticket.id review.id %}">Modifier la critique</a>
+                <a href="{% url 'review_delete' ticket.id review.id %}">Supprimer la critique</a>
             {% endif %}
         </div>
         <hr>

@@ -124,3 +124,15 @@ def review_update(request, ticket_id, review_id):
             form = forms.ReviewForm(instance=review)
 
     return render(request, "tickets/review_update.html", {"form": form, "review": review})
+
+@login_required
+def review_delete(request, ticket_id, review_id):
+    review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
+    if review.user != request.user:
+        HttpResponseForbidden("Vous ne pouyez supprimer que vos propres critiques.")
+    if request.method == "POST":
+        review.delete()
+        return redirect("ticket_detail", ticket_id= review.ticket.id)
+
+    return render(request, "tickets/review_confirm_delete.html", {"review": review,
+                                                                  "ticket": review.ticket})
