@@ -15,6 +15,15 @@ class Ticket(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        image = ResizeImage.open(self.image)
+        image.thumbnail(IMAGE_MAX_SIZE)
+        image.save(self.image.path)
+
 """
 class Image(models.Model):
     image = models.ImageField(null=True, blank=True)
@@ -40,9 +49,11 @@ class Review(models.Model):
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return (self.headline,
-                self.rating,
-                self.user,
-                self.time_created,
-                self.image)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        image = ResizeImage.open(self.image)
+        image.thumbnail(IMAGE_MAX_SIZE)
+        image.save(self.image.path)

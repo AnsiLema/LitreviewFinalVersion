@@ -7,11 +7,12 @@
 <body>
     <h1>LITRevu</h1>
     {% if user.is_authenticated %}
-<p>Vous êtes connecté en tant que {{ request.user }}</p>
+    <p>Vous êtes connecté en tant que {{ request.user }}</p>
     <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Se déconnecter</button>
     </form>
+    <p><a href="{% url 'follow_users' %}">Suivre des Utilisateurs</a></p>
     {% endif %}
     {% block content %}
     {% endblock %}
