@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ review.headline }}</h2>
+<div>
+  <p>{{ review.description}}</p>
+  <p>Auteur: {{ review.author }}</p>
+  <p>Date: {{ review.date }}</p>
+  {% if review.image %}
+    <img src="{{ review.image.url }}" alt="Image de la critique">
+  {% endif %}
+</div>
+<a href="{% url 'review_list' %}" class="btn btn-secondary">Retour</a>
+{% endblock %}

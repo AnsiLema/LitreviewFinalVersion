@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Critiques</h1>
+<a href="{% url 'home' %}" class="btn btn-secondary">Accueil</a>
+<ul>
+  {% for review in reviews %}
+    <li>
+      <strong><a href="{% url 'review_detail' review.ticket.id review.id %}">{{ review.headline }}</a></strong><br>
+      {{ review.body }}<br>
+      <em>Par {{ review.user.username }}, le {{ review.time_created }}</em><br>
+      {% if review.image %}
+        <img src="{{ review.image.url }}" alt="Image de la critique" width="100">
+      {% endif %}
+      {% if review.user == request.user %}
+        <a href="{ url 'review_update' review.ticket.id review.id">Modifier</a>
+        <a href="">Supprimer</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}

@@ -15,4 +15,15 @@
         {% endif %}
         <p>Par {{ ticket.user.username }} le {{ ticket.time_created }}</p>
     {% endfor %}
+    {% for review in reviews %}
+        <a href="{% url 'review_detail' review.ticket.id review.id %}">{{ review.headline }}</a>
+        {{ review.body }}
+        {{ review.rating }}
+        {% if review.image %}
+            <img src="{{ review.image.url }}" alt="Image de la critique" width="100">
+        {% else %}
+            <p>Pas d'image disponible</p>
+        {% endif %}
+        <p>Par {{ review.user.username }} le {{ review.time_created }}</p>
+    {% endfor %}
 {% endblock content %}

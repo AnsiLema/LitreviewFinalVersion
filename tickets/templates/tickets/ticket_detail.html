@@ -34,5 +34,5 @@
     {% if user != ticket.user %}
         <a href="{% url 'review_create' ticket.id %}">Répondre avec une critique</a>
     {% endif %}
-        <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Retour</a>
+
 {% endblock %}

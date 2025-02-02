@@ -40,6 +40,8 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/update/', tickets.views.ticket_update, name='ticket_update'),
     path('ticket/<int:ticket_id>/delete/', tickets.views.ticket_delete, name='ticket_delete'),
     path('tickets/<int:ticket_id>/review/create/', tickets.views.review_create, name='review_create'),
+    path('tickets/review/list/', tickets.views.review_list, name='review_list'),
+    path('tickets/<int:ticket_id>/review/<int:review_id>/', tickets.views.review_detail, name='review_detail'),
     path('tickets/<int:ticket_id>/review/<int:review_id>/update/', tickets.views.review_update,
          name='review_update'),
     path('tickets/<int:ticket_id>/review/<int:review_id>/delete/', tickets.views.review_delete,

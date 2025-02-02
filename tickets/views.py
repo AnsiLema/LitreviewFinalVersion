@@ -19,6 +19,7 @@ def ticket_create(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
+            ticket.contributors.add(request.user, through_defaults={"contribution": "Auteur Principal"})
             return redirect("ticket_list")
     return render(request, "tickets/ticket_create.html", {"form": forms.TicketForm()})
 
@@ -54,6 +55,11 @@ def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     reviews = Review.objects.filter(ticket=ticket)
     return render(request, "tickets/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
+
+@login_required
+def review_detail(request, ticket_id, review_id):
+    review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
+    return render(request, "tickets/review_detail.html", {"review": review})
 
 """
 def image_upload(request):
@@ -107,6 +113,11 @@ def review_create(request, ticket_id):
             return redirect("ticket_detail", ticket_id)
 
     return render(request, "tickets/review_create.html", {"form": form, "ticket": ticket})
+
+@login_required
+def review_list(request):
+    reviews = Review.objects.all().order_by('-time_created')
+    return render(request, "tickets/review_list.html", {"reviews": reviews})
 
 @login_required
 def review_update(request, ticket_id, review_id):
