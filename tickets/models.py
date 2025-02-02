@@ -26,21 +26,6 @@ class Ticket(models.Model):
         image.thumbnail(IMAGE_MAX_SIZE)
         image.save(self.image.path)
 
-"""
-class Image(models.Model):
-    image = models.ImageField(null=True, blank=True)
-    caption = models.CharField(max_length=128, null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.resize_image()
-
-    def resize_image(self):
-        image = ResizeImage.open(self.image)
-        image.thumbnail(IMAGE_MAX_SIZE)
-        image.save(self.image.path)
-"""
-
 
 class Review(models.Model):
     ticket = models.ForeignKey(to="Ticket", on_delete=models.CASCADE)

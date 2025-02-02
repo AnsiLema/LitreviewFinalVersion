@@ -5,25 +5,29 @@
     <a href="{% url 'ticket_and_review_upload' %}">Ajouter une Critique</a>
     <h3>Bienvenue sur la page d'accueil</h3>
     <p>Votre Flux</p>
-    {% for ticket in tickets %}
-        <a href="{% url 'ticket_detail' ticket.id %}">{{ ticket.title }}</a>
-        {{ ticket.description }}
-        {% if ticket.image %}
-            <img src="{{ ticket.image.url }}" alt="Image du ticket" width="100">
-        {% else %}
-            <p>Pas d'image disponible</p>
-        {% endif %}
-        <p>Par {{ ticket.user.username }} le {{ ticket.time_created }}</p>
-    {% endfor %}
-    {% for review in reviews %}
-        <a href="{% url 'review_detail' review.ticket.id review.id %}">{{ review.headline }}</a>
-        {{ review.body }}
-        {{ review.rating }}
-        {% if review.image %}
-            <img src="{{ review.image.url }}" alt="Image de la critique" width="100">
-        {% else %}
-            <p>Pas d'image disponible</p>
-        {% endif %}
-        <p>Par {{ review.user.username }} le {{ review.time_created }}</p>
+
+    {% for post in posts %}
+        <div class="post">
+            <p><strong>Auteur :</strong> {{ post.user.username }}</p>
+            <p><strong>Date :</strong> {{ post.time_created|date:"d/m/Y H:i" }}</p>
+
+            {% if post.post_type == "ticket" %}
+                <h4>Demande de critique (Ticket)</h4>
+                <p><strong>Titre :</strong> {{ post.title }}</p>
+                <p><strong>Description :</strong> {{ post.description }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Image du ticket" style="max-width: 300px; max-height: 300px;">
+                {% endif %}
+                <a href="{% url 'ticket_detail' post.id %}">Voir le ticket</a>
+
+            {% elif post.post_type == "review" %}
+                <h4>Critique (Review)</h4>
+                <p><strong>Headline :</strong> {{ post.headline }}</p>
+                <p><strong>Description :</strong> {{ post.body }}</p>
+                <p><strong>Note :</strong> {{ post.rating }}/5</p>
+                <a href="{% url 'review_detail' post.ticket.id post.id %}">Voir la critique</a>
+            {% endif %}
+        </div>
+        <hr>
     {% endfor %}
 {% endblock content %}
