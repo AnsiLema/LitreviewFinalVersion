@@ -20,7 +20,9 @@
                 <p>{{ review.headline }}</p>
                 <p>{{ review.body }}</p>
                 <p>{{ review.rating }}</p>
-                <img src="{{ review.image.url }}">
+                {% if review.image %}
+                    <img src="{{ review.image.url }}" alt="">
+                {% endif %}
             </div>
             {% if review.user == user %}
                 <a href="{% url 'review_update' ticket.id review.id %}">Modifier la critique</a>

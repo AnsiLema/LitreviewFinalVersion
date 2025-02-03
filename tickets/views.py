@@ -61,18 +61,6 @@ def review_detail(request, ticket_id, review_id):
     review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
     return render(request, "tickets/review_detail.html", {"review": review})
 
-"""
-def image_upload(request):
-    form = forms.ImageForm()
-    if request.method == "POST":
-        form = forms.ImageForm(request.POST, request.FILES)
-        image = form.save(commit=False)
-        image.uploader = request.user
-        image.save()
-        return redirect("ticket_list")
-
-    return render(request, "tickets/image_upload.html", {"form": form})
-"""
 
 @login_required
 def ticket_and_review_upload(request):

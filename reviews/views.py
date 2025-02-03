@@ -15,19 +15,23 @@ def home(request):
 
     # Display tickets (User and followed users)
     tickets = Ticket.objects.filter(
-        Q(user=request.user) | Q(contributors__in=followed_users)
+        Q(user=request.user) | Q(contributors__in=followed_users.all())
     ).annotate(post_type=Value("ticket", output_field=CharField()))
 
     # Display reviews (User and followed users)
     reviews = Review.objects.filter(
-        Q(user=request.user) | Q(ticket__contributors__in=followed_users)
+        Q(user=request.user) | Q(ticket__contributors__in=followed_users.all())
     ).annotate(post_type=Value("review", output_field=CharField()))
+
+    print("tickets: ", tickets)
+    print("reviews: ", reviews)
 
     # Fusion of tickets and reviews, sorted by date of creation (from newest to oldest)
     posts = sorted(
         chain(tickets, reviews),
-        key=lambda post: post.time_created,
+        key=lambda instance: instance.time_created,
         reverse=True
     )
 
     return render(request, "reviews/home.html", {"posts": posts})
+

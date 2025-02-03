@@ -1,33 +1,31 @@
 {% extends "base.html" %}
+{% load reviews_extras %}
 {% block content %}
-    <h2>Accueil</h2>
-    <a href="{% url 'ticket_create' %}">Demander une Critique</a>
-    <a href="{% url 'ticket_and_review_upload' %}">Ajouter une Critique</a>
-    <h3>Bienvenue sur la page d'accueil</h3>
-    <p>Votre Flux</p>
-
-    {% for post in posts %}
-        <div class="post">
-            <p><strong>Auteur :</strong> {{ post.user.username }}</p>
-            <p><strong>Date :</strong> {{ post.time_created|date:"d/m/Y H:i" }}</p>
-
-            {% if post.post_type == "ticket" %}
-                <h4>Demande de critique (Ticket)</h4>
-                <p><strong>Titre :</strong> {{ post.title }}</p>
-                <p><strong>Description :</strong> {{ post.description }}</p>
-                {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="Image du ticket" style="max-width: 300px; max-height: 300px;">
-                {% endif %}
-                <a href="{% url 'ticket_detail' post.id %}">Voir le ticket</a>
-
-            {% elif post.post_type == "review" %}
-                <h4>Critique (Review)</h4>
-                <p><strong>Headline :</strong> {{ post.headline }}</p>
-                <p><strong>Description :</strong> {{ post.body }}</p>
-                <p><strong>Note :</strong> {{ post.rating }}/5</p>
-                <a href="{% url 'review_detail' post.ticket.id post.id %}">Voir la critique</a>
+    <h2>Votre Flux</h2>
+    <div class="flex-container">
+        {% for instance in posts %}
+            {% if instance|model_type == "Ticket" %}
+               <div class="ticket">
+                   <a href="{% url 'ticket_detail' instance.id %}">
+                       <h4>{{ instance.title }}</h4>
+                       {% if instance.image %}
+                            <img src="{{ instance.image.url }}" alt="{{ instance.title }}">
+                       {% endif %}
+                       <p>{{ instance.description }}</p>
+                       <p><strong>Publié par {{ instance.user }}</strong></p>
+                       <p>{{ instance.time_created }}</p>
+                   </a>
+               </div>
+            {% elif instance|model_type == "Review" %}
+                <div class="review">
+                    <a href="{% url 'review_detail' ticket_id=instance.ticket.id review_id=instance.id %}">
+                        <h4>{{ instance.headline }}</h4>
+                        <img src="{{ instance.image.url }}" alt="{{ instance.headline }}">
+                        <p><strong>Publié par {{ instance.user.username }}</strong></p>
+                        <p>{{ instance.time_created }}</p>
+                    </a>
+                </div>
             {% endif %}
-        </div>
-        <hr>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock content %}
