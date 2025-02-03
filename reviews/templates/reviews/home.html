@@ -3,29 +3,26 @@
 {% block content %}
     <h2>Votre Flux</h2>
     <div class="flex-container">
-        {% for instance in posts %}
+        {% for instance in paged_posts %}
             {% if instance|model_type == "Ticket" %}
-               <div class="ticket">
-                   <a href="{% url 'ticket_detail' instance.id %}">
-                       <h4>{{ instance.title }}</h4>
-                       {% if instance.image %}
-                            <img src="{{ instance.image.url }}" alt="{{ instance.title }}">
-                       {% endif %}
-                       <p>{{ instance.description }}</p>
-                       <p><strong>Publié par {% get_uploader_display instance.user %}</strong></p>
-                       <p>{{ instance.time_created }}</p>
-                   </a>
-               </div>
+                {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
             {% elif instance|model_type == "Review" %}
-                <div class="review">
-                    <a href="{% url 'review_detail' ticket_id=instance.ticket.id review_id=instance.id %}">
-                        <h4>{{ instance.headline }}</h4>
-                        <img src="{{ instance.image.url }}" alt="{{ instance.headline }}">
-                        <p><strong>Publié par {% get_uploader_display instance.user %}</strong></p>
-                        <p>{{ instance.time_created }}</p>
-                    </a>
-                </div>
+                {% include "reviews/partials/review_snippet.html" with review=instance %}
             {% endif %}
         {% endfor %}
     </div>
+
+    <span class="pagination">
+        {% if paged_posts.has_previous %}
+            <a href="?page=1">« première</a>
+            <a href="?page={{ paged_posts.previous_page_number }}">précedente</a>
+        {% endif %}
+        <span>
+            Page {{ paged_posts.number }} de {{ paged_posts.paginator.num_pages }}.
+        </span>
+        {% if paged_posts.has_next %}
+            <a href="?page={{ paged_posts.next_page_number }}">suivante</a>
+            <a href="?page={{ paged_posts.paginator.num_pages }}">dernière »</a>
+        {% endif %}
+    </span>
 {% endblock content %}

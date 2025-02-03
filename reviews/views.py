@@ -1,11 +1,11 @@
 from itertools import chain
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, CharField, Value
 from authentication.models import UserFollows
 from tickets.models import Ticket, Review
 
-from tickets import models
 
 
 @login_required
@@ -23,8 +23,7 @@ def home(request):
         Q(user=request.user) | Q(ticket__contributors__in=followed_users.all())
     ).annotate(post_type=Value("review", output_field=CharField()))
 
-    print("tickets: ", tickets)
-    print("reviews: ", reviews)
+
 
     # Fusion of tickets and reviews, sorted by date of creation (from newest to oldest)
     posts = sorted(
@@ -33,5 +32,13 @@ def home(request):
         reverse=True
     )
 
-    return render(request, "reviews/home.html", {"posts": posts})
+    paginator = Paginator(posts, 5)
+    page = request.GET.get("page")
+    paged_posts = paginator.get_page(page)
+
+    context = {
+        "paged_posts": paged_posts
+    }
+
+    return render(request, "reviews/home.html", context=context)
 
