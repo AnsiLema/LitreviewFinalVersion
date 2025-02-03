@@ -12,7 +12,7 @@
                             <img src="{{ instance.image.url }}" alt="{{ instance.title }}">
                        {% endif %}
                        <p>{{ instance.description }}</p>
-                       <p><strong>Publié par {{ instance.user }}</strong></p>
+                       <p><strong>Publié par {% get_uploader_display instance.user %}</strong></p>
                        <p>{{ instance.time_created }}</p>
                    </a>
                </div>
@@ -21,7 +21,7 @@
                     <a href="{% url 'review_detail' ticket_id=instance.ticket.id review_id=instance.id %}">
                         <h4>{{ instance.headline }}</h4>
                         <img src="{{ instance.image.url }}" alt="{{ instance.headline }}">
-                        <p><strong>Publié par {{ instance.user.username }}</strong></p>
+                        <p><strong>Publié par {% get_uploader_display instance.user %}</strong></p>
                         <p>{{ instance.time_created }}</p>
                     </a>
                 </div>
