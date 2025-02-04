@@ -11,7 +11,8 @@ from tickets.models import Ticket, Review
 @login_required
 def home(request):
     """View function for feed page of site."""
-    followed_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
+    followed_users = UserFollows.objects.filter(user=request.user).values_list('followed_user_id', flat=True)
+    print(f" suivi par {request.user.username} : {followed_users}")
 
     # Display tickets (User and followed users)
     tickets = Ticket.objects.filter(
@@ -22,7 +23,6 @@ def home(request):
     reviews = Review.objects.filter(
         Q(user=request.user) | Q(user__in=followed_users)
     ).annotate(post_type=Value("review", output_field=CharField()))
-
 
 
     # Fusion of tickets and reviews, sorted by date of creation (from newest to oldest)
@@ -37,7 +37,8 @@ def home(request):
     paged_posts = paginator.get_page(page)
 
     context = {
-        "paged_posts": paged_posts
+        "paged_posts": paged_posts,
+        "followed_users": followed_users
     }
 
     return render(request, "reviews/home.html", context=context)

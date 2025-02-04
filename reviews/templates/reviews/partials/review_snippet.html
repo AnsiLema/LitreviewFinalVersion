@@ -1,9 +1,37 @@
 {% load reviews_extras %}
-<div class="review">
-    <a href="{% url 'review_detail' ticket_id=review.ticket.id review_id=review.id %}">
-        <h4>{{ review.headline }}</h4>
-        <img src="{{ review.image.url }}" alt="{{ review.headline }}">
-        <p><strong>Publié par {% get_uploader_display review.user %}</strong></p>
+
+<!-- Informations du ticket associé -->
+<div class="card mb-3 shadow-sm">
+    <div class="card-header bg-light">
+        <p class="mb-0 text-muted">En réponse à un ticket de <strong>{{ review.ticket.user.username }}</strong></p>
+    </div>
+    <div class="card-body d-flex align-items-center">
+        <div class="flex-grow-1">
+            <h6 class="fw-bold">{{ review.ticket.title }}</h6>
+            <p class="text-muted">{{ review.ticket.description }}</p>
+        </div>
+        {% if review.ticket.image %}
+            <div class="ms-3">
+                <img src="{{ review.ticket.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Ticket"
+                     style="max-width: 200px; height: auto;">
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Informations de la critique -->
+<div class="d-flex align-items-center">
+    <div class="flex-grow-1">
+        <h5 class="fw-bold">{{ review.headline }}</h5>
+        <p class="text-warning fs-5">{{ review.rating|rating_into_stars }}</p>
+        <p class="text-muted">{{ review.body }}</p>
+        <p class="text-muted"><strong>Publié par {% get_uploader_display review.user %}</strong></p>
         <p>{{ review.time_created|get_posted_at_display }}</p>
-    </a>
+    </div>
+    {% if review.image %}
+        <div class="ms-3">
+            <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Critique"
+                 style="max-width: 250px; height: auto;">
+        </div>
+    {% endif %}
 </div>

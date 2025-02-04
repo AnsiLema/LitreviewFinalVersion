@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from PIL import Image as ResizeImage
 
-IMAGE_MAX_SIZE = (400, 400)
+IMAGE_MAX_SIZE = (250, 250)
 
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
