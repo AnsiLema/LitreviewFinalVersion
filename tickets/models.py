@@ -11,8 +11,6 @@ class Ticket(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField( null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through="authentication.ReviewContributor",
-                                          related_name="ticket_contributions")
 
     def __str__(self):
         return self.title
@@ -35,8 +33,6 @@ class Review(models.Model):
     body = models.TextField(max_length=8192, blank=True)
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through="authentication.ReviewContributor",
-                                          related_name="review_contributions")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

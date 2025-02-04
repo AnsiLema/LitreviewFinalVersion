@@ -15,12 +15,12 @@ def home(request):
 
     # Display tickets (User and followed users)
     tickets = Ticket.objects.filter(
-        Q(user=request.user) | Q(contributors__in=followed_users.all())
+        Q(user=request.user) | Q(user__in=followed_users)
     ).annotate(post_type=Value("ticket", output_field=CharField()))
 
     # Display reviews (User and followed users)
     reviews = Review.objects.filter(
-        Q(user=request.user) | Q(ticket__contributors__in=followed_users.all())
+        Q(user=request.user) | Q(user__in=followed_users)
     ).annotate(post_type=Value("review", output_field=CharField()))
 
 
