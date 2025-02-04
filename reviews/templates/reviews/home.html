@@ -1,28 +1,66 @@
 {% extends "base.html" %}
 {% load reviews_extras %}
 {% block content %}
-    <h2>Votre Flux</h2>
-    <div class="flex-container">
-        {% for instance in paged_posts %}
-            {% if instance|model_type == "Ticket" %}
-                {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
-            {% elif instance|model_type == "Review" %}
-                {% include "reviews/partials/review_snippet.html" with review=instance %}
-            {% endif %}
-        {% endfor %}
+
+<div class="container mt-4">
+    <h2 class="text-center">Flux</h2>
+
+    <!-- Boutons pour créer une critique ou un ticket -->
+    <div class="d-flex justify-content-center gap-3 mb-4">
+        <a href="{% url 'ticket_create' %}" class="btn btn-primary btn-lg">
+            Demander une critique
+        </a>
+        <a href="{% url 'ticket_and_review_upload' %}" class="btn btn-secondary btn-lg">
+            Créer une critique
+        </a>
     </div>
 
-    <span class="pagination">
-        {% if paged_posts.has_previous %}
-            <a href="?page=1">« première</a>
-            <a href="?page={{ paged_posts.previous_page_number }}">précedente</a>
-        {% endif %}
-        <span>
-            Page {{ paged_posts.number }} de {{ paged_posts.paginator.num_pages }}.
-        </span>
-        {% if paged_posts.has_next %}
-            <a href="?page={{ paged_posts.next_page_number }}">suivante</a>
-            <a href="?page={{ paged_posts.paginator.num_pages }}">dernière »</a>
-        {% endif %}
-    </span>
+
+    <!-- Conteneur du flux -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for instance in paged_posts %}
+                {% if instance|model_type == "Ticket" %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
+                        </div>
+                    </div>
+                {% elif instance|model_type == "Review" %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            {% include "reviews/partials/review_snippet.html" with review=instance %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Pagination" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            {% if paged_posts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">« Première</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.previous_page_number }}">Précédente</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ paged_posts.number }} de {{ paged_posts.paginator.num_pages }}</span>
+            </li>
+            {% if paged_posts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.next_page_number }}">Suivante</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.paginator.num_pages }}">Dernière »</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
 {% endblock content %}

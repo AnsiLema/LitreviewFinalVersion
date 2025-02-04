@@ -1,12 +1,24 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-  <h2>Inscription</h2>
-  {% if form.errors %}
-    {{ form.errors }}
-  {% endif %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">S'inscrire</button>
-  </form>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h2 class="text-center">S'inscrire</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Nom d'utilisateur</label>
+                <input type="text" class="form-control" name="username" id="id_username">
+            </div>
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" name="password1" id="id_password1">
+            </div>
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" class="form-control" name="password2" id="id_password2">
+            </div>
+            <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

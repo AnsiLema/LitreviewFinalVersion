@@ -1,12 +1,42 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<a href="{% url 'home' %}">Retour</a>
-<h2>Créer une Critique (sans ticket préalable)</h2>
-<form method="post" enctype="multipart/form-data">
-    {{ ticket_form.as_p }}
-    {{ review_form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Envoyer</button>
-</form>
+<div class="container mt-4">
+    <!-- Bouton Retour -->
+    <div class="mb-3">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Retour</a>
+    </div>
+
+    <h2 class="text-center">Créer une Critique (sans ticket préalable)</h2>
+    <p class="text-muted text-center">Vous pouvez soumettre une critique en créant un ticket et une critique en même temps.</p>
+
+    <!-- Formulaire -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Formulaire du Ticket -->
+                <h4 class="text-primary">Informations sur le livre</h4>
+                <div class="mb-3">
+                    {{ ticket_form.as_p }}
+                </div>
+
+                <hr>
+
+                <!-- Formulaire de la Critique -->
+                <h4 class="text-success">Votre critique</h4>
+                <div class="mb-3">
+                    {{ review_form.as_p }}
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <a href="{% url 'home' %}" class="btn btn-danger">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'reviews',
-    'tickets'
+    'tickets',
+    'crispy_forms',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
