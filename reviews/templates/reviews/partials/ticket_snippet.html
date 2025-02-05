@@ -1,6 +1,9 @@
 {% load reviews_extras %}
 <div class="d-flex align-items-center">
     <div class="flex-grow-1">
+        {% if ticket.review_set.count == 0 %}
+            <p class="text-muted"><strong>{{ ticket.user.username }} a demandé une critique</strong></p>
+        {% endif %}
         <h5 class="fw-bold">{{ ticket.title }}</h5>
         <p class="text-muted">{{ ticket.description }}</p>
         <p class="text-muted"><strong>Publié par {% get_uploader_display instance.user %}</strong></p>

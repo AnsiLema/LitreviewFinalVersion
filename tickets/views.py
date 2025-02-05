@@ -15,6 +15,7 @@ def ticket_list(request):
     tickets = Ticket.objects.all().order_by('-time_created')
     return render(request, "tickets/posts.html", {"tickets": tickets})
 
+
 @login_required
 def ticket_create(request):
     if request.method == "POST":
@@ -23,8 +24,7 @@ def ticket_create(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            ticket.contributors.add(request.user, through_defaults={"contribution": "Auteur Principal"})
-            return redirect("ticket_list")
+            return redirect("posts")
     return render(request, "tickets/ticket_create.html", {"form": forms.TicketForm()})
 
 
@@ -37,7 +37,7 @@ def ticket_update(request, ticket_id):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.save()
-            return redirect("ticket_list")
+            return redirect("posts")
         else:
             form = forms.TicketForm(instance=ticket)
 
@@ -48,10 +48,9 @@ def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if request.method == "POST":
         ticket.delete()
-        return redirect("ticket_list")
+        return redirect("posts")
 
     return render(request, "tickets/ticket_confirm_delete.html", {"ticket": ticket})
-
 
 
 @login_required
@@ -59,6 +58,7 @@ def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     reviews = Review.objects.filter(ticket=ticket)
     return render(request, "tickets/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
+
 
 @login_required
 def review_detail(request, ticket_id, review_id):
@@ -88,6 +88,7 @@ def ticket_and_review_upload(request):
     }
     return render(request, "tickets/ticket_and_review_upload.html", context=context)
 
+
 @login_required
 def review_create(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -106,10 +107,12 @@ def review_create(request, ticket_id):
 
     return render(request, "tickets/review_create.html", {"form": form, "ticket": ticket})
 
+
 @login_required
 def review_list(request):
     reviews = Review.objects.all().order_by('-time_created')
     return render(request, "tickets/review_list.html", {"reviews": reviews})
+
 
 @login_required
 def review_update(request, ticket_id, review_id):
@@ -128,6 +131,7 @@ def review_update(request, ticket_id, review_id):
 
     return render(request, "tickets/review_update.html", {"form": form, "review": review})
 
+
 @login_required
 def review_delete(request, ticket_id, review_id):
     review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
@@ -135,10 +139,11 @@ def review_delete(request, ticket_id, review_id):
         HttpResponseForbidden("Vous ne pouyez supprimer que vos propres critiques.")
     if request.method == "POST":
         review.delete()
-        return redirect("ticket_detail", ticket_id= review.ticket.id)
+        return redirect("ticket_detail", ticket_id=review.ticket.id)
 
     return render(request, "tickets/review_confirm_delete.html", {"review": review,
                                                                   "ticket": review.ticket})
+
 
 @login_required
 def posts(request):

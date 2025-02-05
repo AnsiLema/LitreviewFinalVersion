@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 class User(AbstractUser):
     follows = models.ManyToManyField("self", symmetrical=False, verbose_name="suit")
 
@@ -15,3 +16,14 @@ class UserFollows(models.Model):
 
     def __str__(self):
         return f"{self.user} suit {self.followed_user}"
+
+
+class UserBlocks(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blocking")
+    blocked_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blocked_by")
+
+    class Meta:
+        unique_together = ("user", "blocked_user")
+
+    def __str__(self):
+        return f"{self.user} a bloqué {self.blocked_user}"

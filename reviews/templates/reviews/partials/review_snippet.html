@@ -1,5 +1,22 @@
 {% load reviews_extras %}
 
+
+<!-- Informations de la critique -->
+<div class="d-flex align-items-center">
+    <div class="flex-grow-1">
+        <h5 class="fw-bold">{{ review.headline }}</h5>
+        <p class="text-warning fs-5">{{ review.rating|rating_into_stars }}</p>
+        <p class="text-muted">{{ review.body }}</p>
+        <p class="text-muted"><strong>Publié par {% get_uploader_display review.user %}</strong></p>
+        <p>{{ review.time_created|get_posted_at_display }}</p>
+    </div>
+    {% if review.image %}
+        <div class="ms-3">
+            <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Critique"
+                 style="max-width: 250px; height: auto;">
+        </div>
+    {% endif %}
+</div>
 <!-- Informations du ticket associé -->
 <div class="card mb-3 shadow-sm">
     <div class="card-header bg-light">
@@ -17,21 +34,4 @@
             </div>
         {% endif %}
     </div>
-</div>
-
-<!-- Informations de la critique -->
-<div class="d-flex align-items-center">
-    <div class="flex-grow-1">
-        <h5 class="fw-bold">{{ review.headline }}</h5>
-        <p class="text-warning fs-5">{{ review.rating|rating_into_stars }}</p>
-        <p class="text-muted">{{ review.body }}</p>
-        <p class="text-muted"><strong>Publié par {% get_uploader_display review.user %}</strong></p>
-        <p>{{ review.time_created|get_posted_at_display }}</p>
-    </div>
-    {% if review.image %}
-        <div class="ms-3">
-            <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Critique"
-                 style="max-width: 250px; height: auto;">
-        </div>
-    {% endif %}
 </div>

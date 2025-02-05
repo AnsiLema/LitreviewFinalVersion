@@ -2,11 +2,11 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h2 class="text-center">👥 Gérer vos abonnements</h2>
+    <h2 class="text-center">Gérer vos abonnements</h2>
 
     <!-- Formulaire de recherche et abonnement -->
     <div class="card p-4 shadow-sm">
-        <h4>🔍 Rechercher un utilisateur</h4>
+        <h4>Rechercher un utilisateur</h4>
         <form method="post">
             {% csrf_token %}
             <div class="input-group mb-3">
@@ -25,30 +25,44 @@
     <div class="row mt-4">
         <!-- Liste des abonnés -->
         <div class="col-md-6">
-            <h4>👥 Abonnés</h4>
+            <h4>Abonnés</h4>
             <ul class="list-group">
                 {% for follower in followers %}
-                    <li class="list-group-item">{{ follower.user.username }}</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ follower.user.username }}
+
+                        <div>
+                            {% if follower.user.id in blocked_users %}
+                                <a href="{% url 'unblock_user' follower.user.id %}" class="btn btn-success btn-sm">
+                                    Débloquer
+                                </a>
+                            {% else %}
+                                <a href="{% url 'block_user' follower.user.id %}" class="btn btn-danger btn-sm">
+                                    Bloquer
+                                </a>
+                            {% endif %}
+                        </div>
+                    </li>
                 {% empty %}
                     <p class="text-muted">Aucun abonné.</p>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Liste des suivis -->
         <div class="col-md-6">
-            <h4>✅ Vous suivez</h4>
+            <h4>Vous suivez</h4>
             <ul class="list-group">
                 {% for follow in followed_users %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{ follow.followed_user.username }}
-                        <a href="{% url 'unfollow_users' follow.followed_user.id %}" class="btn btn-danger btn-sm">Se désabonner</a>
+                        <a href="{% url 'unfollow_user' follow.followed_user.id %}" class="btn btn-danger btn-sm">Se désabonner</a>
                     </li>
                 {% empty %}
                     <p class="text-muted">Vous ne suivez personne.</p>
                 {% endfor %}
             </ul>
         </div>
+
     </div>
 </div>
 

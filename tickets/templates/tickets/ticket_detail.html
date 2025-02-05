@@ -1,40 +1,91 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-    <h2>Demande : {{ ticket.title }}</h2>
-    {% if ticket.image %}
-        <img src="{{ ticket.image.url }}" alt="">
-    {% else %}
-        <p>Aucune image</p>
-    {% endif %}
-    <p>{{ ticket.description }}</p>
-    <p>Crée le {{ ticket.time_created }} par {{ ticket.user }}</p>
-    {% if ticket.user == user %}
-        <a href="{% url 'ticket_update' ticket.id %}">Modifier</a>
-        <a href="{% url 'ticket_delete' ticket.id %}">Supprimer</a>
-    {% endif %}
-    <h3>Critiques</h3>
-    {% for review in reviews %}
-        <div>
-            <p><strong>Par {{ review.user }}</strong></p>
-            <div>
-                <p>{{ review.headline }}</p>
-                <p>{{ review.body }}</p>
-                <p>{{ review.rating }}</p>
-                {% if review.image %}
-                    <img src="{{ review.image.url }}" alt="">
+
+<div class="container mt-4">
+    <!-- Bouton Retour -->
+    <div class="mb-3">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Retour</a>
+    </div>
+
+    <!-- Carte du Ticket -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="text-primary text-center">{{ ticket.title }}</h2>
+
+            <div class="d-flex justify-content-between">
+                <!-- Détails du ticket -->
+                <div>
+                    <p class="text-muted"><strong>Publié par {{ ticket.user.username }}</strong></p>
+                    <p><small class="text-muted">Crée le {{ ticket.time_created }}</small></p>
+                    <p>{{ ticket.description }}</p>
+                </div>
+
+                <!-- Image du ticket -->
+                {% if ticket.image %}
+                    <div class="ms-3">
+                        <img src="{{ ticket.image.url }}" class="img-fluid rounded shadow-sm"
+                             alt="Image Ticket" style="max-width: 400px; height: auto;">
+                    </div>
                 {% endif %}
             </div>
-            {% if review.user == user %}
-                <a href="{% url 'review_update' ticket.id review.id %}">Modifier la critique</a>
-                <a href="{% url 'review_delete' ticket.id review.id %}">Supprimer la critique</a>
+
+            <!-- Boutons d'actions -->
+            {% if ticket.user == request.user %}
+                <div class="mt-3">
+                    <a href="{% url 'ticket_update' ticket.id %}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </a>
+                    <a href="{% url 'ticket_delete' ticket.id %}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> Supprimer
+                    </a>
+                </div>
             {% endif %}
         </div>
-        <hr>
+    </div>
+
+    <!-- Liste des Critiques -->
+    <h3 class="mt-4">📝 Critiques</h3>
+    {% for review in reviews %}
+        <div class="card mt-3 shadow-sm">
+            <div class="card-body">
+                <p class="text-muted"><strong>Par {{ review.user.username }}</strong></p>
+                <h5 class="fw-bold">{{ review.headline }}</h5>
+                <p>{{ review.body }}</p>
+                <p>🌟 Note: <strong>{{ review.rating }}/5</strong></p>
+
+                <!-- Image associée à la critique -->
+                {% if review.image %}
+                    <div class="text-center mt-2">
+                        <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm"
+                             alt="Image Critique" style="max-width: 400px; height: auto;">
+                    </div>
+                {% endif %}
+
+                <!-- Boutons d'action pour la critique -->
+                {% if review.user == request.user %}
+                    <div class="mt-3">
+                        <a href="{% url 'review_update' ticket.id review.id %}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </a>
+                        <a href="{% url 'review_delete' ticket.id review.id %}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     {% empty %}
-        <p>Aucune critique pour le moment.</p>
+        <p class="text-center text-muted">Aucune critique pour le moment.</p>
     {% endfor %}
+
+    <!-- Bouton pour ajouter une critique -->
     {% if user != ticket.user %}
-        <a href="{% url 'review_create' ticket.id %}">Répondre avec une critique</a>
+        <div class="text-end mt-3">
+            <a href="{% url 'review_create' ticket.id %}" class="btn btn-primary">
+                <i class="bi bi-chat-left-text"></i> Répondre avec une critique
+            </a>
+        </div>
     {% endif %}
+</div>
 
 {% endblock %}

@@ -46,8 +46,10 @@ urlpatterns = [
          name='review_update'),
     path('tickets/<int:ticket_id>/review/<int:review_id>/delete/', tickets.views.review_delete,
          name='review_delete'),
-    path('follow-users/', authentication.views.follow_user, name='follow_users'),
-    path('unfollow-users/<int:user_id>/', authentication.views.unfollow_user, name='unfollow_users'),
+    path('follow-user/', authentication.views.follow_user, name='follow_user'),
+    path('unfollow-user/<int:user_id>', authentication.views.unfollow_user, name='unfollow_user'),
+    path('block_user/<int:user_id>/', authentication.views.block_user, name='block_user'),
+    path('unblock_user/<int:user_id>/', authentication.views.unblock_user, name='unblock_user'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

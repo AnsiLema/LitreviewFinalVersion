@@ -1,14 +1,29 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from .models import UserFollows
 
+
 User = get_user_model()
+
+
+class SignupForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            "username",
+            "email",
+        )
+
 
 class FollowUserForm(forms.ModelForm):
     username = forms.CharField(
         label="Nom d'utilisateur",
         max_length=150,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Rechercher un utilisateur..."})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control',
+                   'placeholder': "Rechercher un utilisateur..."}
+        )
     )
 
     class Meta:
@@ -30,6 +45,3 @@ class FollowUserForm(forms.ModelForm):
 
         except User.DoesNotExist:
             raise forms.ValidationError("Cet utilisateur n'existe pas.")
-
-
-
