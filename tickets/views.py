@@ -1,3 +1,7 @@
+from itertools import chain
+
+from django.core.paginator import Paginator
+from django.db.models import CharField, Value
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Ticket, Review
@@ -9,7 +13,7 @@ from . import forms
 @login_required
 def ticket_list(request):
     tickets = Ticket.objects.all().order_by('-time_created')
-    return render(request, "tickets/ticket_list.html", {"tickets": tickets})
+    return render(request, "tickets/posts.html", {"tickets": tickets})
 
 @login_required
 def ticket_create(request):
@@ -135,3 +139,23 @@ def review_delete(request, ticket_id, review_id):
 
     return render(request, "tickets/review_confirm_delete.html", {"review": review,
                                                                   "ticket": review.ticket})
+
+@login_required
+def posts(request):
+    """Affiche tous les tickets et critiques de l'utilisateur connecté"""
+    tickets = Ticket.objects.filter(user=request.user).annotate(post_type=Value("ticket", output_field=CharField()))
+    reviews = Review.objects.filter(user=request.user).annotate(post_type=Value("review", output_field=CharField()))
+
+    # Vérification dans la console Django
+    print(f"🎟️ {request.user.username} - Tickets récupérés : {len(tickets)}")
+    print(f"📝 {request.user.username} - Reviews récupérées : {len(reviews)}")
+
+    # Fusionner les posts et trier par date (du plus récent au plus ancien)
+    user_posts = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
+
+    # Ajouter une pagination
+    paginator = Paginator(user_posts, 5)  # 5 publications par page
+    page = request.GET.get("page")
+    paged_posts = paginator.get_page(page)
+
+    return render(request, "tickets/posts.html", {"paged_posts": paged_posts})

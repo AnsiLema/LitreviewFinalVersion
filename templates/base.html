@@ -23,7 +23,7 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Flux</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'ticket_list' %}">Posts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'posts' %}">Posts</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'follow_users' %}">Abonnements</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

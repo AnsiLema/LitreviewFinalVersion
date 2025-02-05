@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load reviews_extras %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">📌 Vos Publications</h2>
+
+    <!-- Boutons pour créer un ticket ou une critique -->
+    <div class="d-flex justify-content-center gap-3 mb-4">
+        <a href="{% url 'ticket_create' %}" class="btn btn-primary btn-lg">
+            Demander une critique
+        </a>
+        <a href="{% url 'ticket_and_review_upload' %}" class="btn btn-secondary btn-lg">
+            Créer une critique
+        </a>
+    </div>
+
+    <!-- Conteneur des posts -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for instance in paged_posts %}
+                {% if instance|model_type == "Ticket" %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
+                            <div class="mt-3 d-flex justify-content-between">
+                                <a href="{% url 'ticket_update' instance.id %}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Modifier
+                                </a>
+                                <a href="{% url 'ticket_delete' instance.id %}" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% elif instance|model_type == "Review" %}
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            {% include "reviews/partials/review_snippet.html" with review=instance %}
+                            <div class="mt-3 d-flex justify-content-between">
+                                <a href="{% url 'review_update' instance.ticket.id instance.id %}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Modifier
+                                </a>
+                                <a href="{% url 'review_delete' instance.ticket.id instance.id %}" class="btn btn-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+                <p class="text-center text-muted">Vous n'avez encore rien posté.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Pagination" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            {% if paged_posts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">« Première</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.previous_page_number }}">Précédente</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ paged_posts.number }} de {{ paged_posts.paginator.num_pages }}</span>
+            </li>
+            {% if paged_posts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.next_page_number }}">Suivante</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paged_posts.paginator.num_pages }}">Dernière »</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

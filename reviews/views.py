@@ -26,20 +26,19 @@ def home(request):
 
 
     # Fusion of tickets and reviews, sorted by date of creation (from newest to oldest)
-    posts = sorted(
+    tickets_and_reviews = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
         reverse=True
     )
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(tickets_and_reviews, 5)
     page = request.GET.get("page")
-    paged_posts = paginator.get_page(page)
+    paged_tickets_and_reviews = paginator.get_page(page)
 
     context = {
-        "paged_posts": paged_posts,
+        "paged_tickets_and_reviews": paged_tickets_and_reviews,
         "followed_users": followed_users
     }
 
     return render(request, "reviews/home.html", context=context)
-

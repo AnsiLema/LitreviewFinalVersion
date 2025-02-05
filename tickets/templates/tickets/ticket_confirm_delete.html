@@ -5,6 +5,6 @@
 <form action="" method="post">
     {% csrf_token %}
     <button type="submit" value="Envoyer">Supprimer</button>
-    <a href="{% url 'ticket_list' %}" class="btn btn-secondary">Annuler</a>
+    <a href="{% url 'posts' %}" class="btn btn-secondary">Annuler</a>
 </form>
 {% endblock %}

@@ -35,3 +35,8 @@ def rating_into_stars(value):
         return "★" * value + "☆" * (5 - value)
     except ValueError:
         return "Note invalide"
+
+@register.filter
+def add_class(field, css_class):
+    """Ajoute une classe CSS à un champ de formulaire Django"""
+    return field.as_widget(attrs={"class": css_class})
