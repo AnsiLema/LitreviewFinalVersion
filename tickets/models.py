@@ -21,6 +21,8 @@ class Ticket(models.Model):
         self.resize_image()
 
     def resize_image(self):
+        if not self.image or not self.image.path:
+            return
         image = ResizeImage.open(self.image)
         image.thumbnail(IMAGE_MAX_SIZE)
         image.save(self.image.path)
@@ -40,6 +42,9 @@ class Review(models.Model):
         self.resize_image()
 
     def resize_image(self):
+        if not self.image or not self.image.path:
+            return
+
         image = ResizeImage.open(self.image)
         image.thumbnail(IMAGE_MAX_SIZE)
         image.save(self.image.path)

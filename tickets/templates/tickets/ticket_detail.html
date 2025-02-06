@@ -59,6 +59,8 @@
                         <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm"
                              alt="Image Critique" style="max-width: 400px; height: auto;">
                     </div>
+                {% else %}
+                    <p>Aucune image</p>
                 {% endif %}
 
                 <!-- Boutons d'action pour la critique -->

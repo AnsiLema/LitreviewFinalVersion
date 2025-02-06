@@ -32,12 +32,15 @@ def ticket_create(request):
 def ticket_update(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     form = forms.TicketForm(instance=ticket)
+
+    next_url = request.GET.get("next", "posts")
+
     if request.method == "POST":
         form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.save()
-            return redirect("posts")
+            return redirect(next_url)
         else:
             form = forms.TicketForm(instance=ticket)
 
@@ -46,9 +49,12 @@ def ticket_update(request, ticket_id):
 
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    next_url = request.GET.get("next", "posts")
+
     if request.method == "POST":
         ticket.delete()
-        return redirect("posts")
+        return redirect(next_url)
 
     return render(request, "tickets/ticket_confirm_delete.html", {"ticket": ticket})
 
@@ -117,13 +123,22 @@ def review_list(request):
 @login_required
 def review_update(request, ticket_id, review_id):
     review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
+
     if review.user != request.user:
         return HttpResponseForbidden("Vous ne pouyez modifier que vos propres critiques.")
+
     form = forms.ReviewForm(instance=review)
+
     if request.method == "POST":
         form = forms.ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
             review = form.save(commit=False)
+
+            if "image" in request.FILES:
+                review.image = request.FILES["image"]
+            elif not review.image:
+                review.image = None
+
             review.save()
             return redirect("ticket_detail", review.ticket.id)
         else:

@@ -24,10 +24,12 @@
                         <div class="card-body">
                             {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
                             <div class="mt-3 d-flex justify-content-between">
-                                <a href="{% url 'ticket_update' instance.id %}" class="btn btn-warning btn-sm">
+                                <a href="{% url 'ticket_update' instance.id %}?next={{ request.get_full_path }}"
+                                   class="btn btn-warning btn-sm">
                                     <i class="bi bi-pencil"></i> Modifier
                                 </a>
-                                <a href="{% url 'ticket_delete' instance.id %}" class="btn btn-danger btn-sm">
+                                <a href="{% url 'ticket_delete' instance.id %}?next={{ request.get_full_path }}"
+                                   class="btn btn-danger btn-sm">
                                     <i class="bi bi-trash"></i> Supprimer
                                 </a>
                             </div>

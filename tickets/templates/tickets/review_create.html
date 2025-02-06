@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <!-- Bouton Retour -->
     <div class="mb-3">
-        <a href="{% url 'ticket_list' %}" class="btn btn-outline-secondary">Retour</a>
+        <a href="{% url 'posts' %}" class="btn btn-outline-secondary">Retour</a>
     </div>
 
     <h2 class="text-center">Créer une Critique</h2>
@@ -21,11 +21,13 @@
         <div class="card-body">
             <h5 class="fw-bold">{{ ticket.title }}</h5>
             <p class="text-muted">{{ ticket.description }}</p>
-            {% if ticket.image %}
+            {% if ticket.image and ticket.image.url %}
                 <div class="text-center">
                     <img src="{{ ticket.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Ticket"
                          style="max-width: 250px; height: auto;">
                 </div>
+            {% else %}
+                <p class="text-muted text-center">Aucune image associée à ce ticket.</p>
             {% endif %}
         </div>
     </div>

@@ -9,7 +9,7 @@ from .forms import FollowUserForm
 
 from . import forms
 
-User = get_user_model()
+user = get_user_model()
 
 def signup_page(request):
     form = forms.SignupForm()

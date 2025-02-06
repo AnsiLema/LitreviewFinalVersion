@@ -38,7 +38,9 @@ def home(request):
 
     # 📌 5. Récupérer les critiques en excluant les utilisateurs bloqués
     reviews = Review.objects.filter(
-        Q(user=request.user) | Q(user__in=followed_users)
+        Q(user=request.user) |
+        Q(user__in=followed_users) |
+        Q(ticket__user=request.user)
     ).exclude(
         Q(user__in=blocked_users) | Q(user__in=users_who_blocked_me)
     ).annotate(post_type=Value("review", output_field=CharField()))
