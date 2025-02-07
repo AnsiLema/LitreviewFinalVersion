@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import UserFollows, UserBlocks
@@ -10,6 +9,7 @@ from .forms import FollowUserForm
 from . import forms
 
 User = get_user_model()
+
 
 def signup_page(request):
     form = forms.SignupForm()
