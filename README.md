@@ -155,34 +155,7 @@ LitReviewFinalVersion/
 
 ---
 
-## 👥 Contribuer
-
-Les contributions au projet sont les bienvenues ! Pour cela, suivez ces étapes :
-
-1. Forkez le dépôt.
-2. Créez une nouvelle branche pour votre fonctionnalité ou correction de bug :  
-   ```bash
-   git checkout -b nouvelle-fonctionnalite
-   ```
-3. Effectuez vos modifications et validez-les :  
-   ```bash
-   git commit -m "Description de la modification"
-   ```
-4. Envoyez vos modifications :  
-   ```bash
-   git push origin nouvelle-fonctionnalite
-   ```
-5. Ouvrez une Pull Request.
-
----
-
-## 📜 Licence
-
-Ce projet est sous licence [MIT](https://opensource.org/licenses/MIT). Vous êtes libre de l'utiliser, de le modifier et de le distribuer tout en attribuant le crédit original.
-
----
-
 ## 📧 Contact
 
 Pour toute question ou suggestion, n'hésitez pas à nous contacter par email :  
-**contact@litrevu.com**
+**ansilema@gmail.com**
