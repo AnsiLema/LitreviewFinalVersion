@@ -65,12 +65,11 @@ def block_user(request, user_id):
     """Allows user to block a user without having to follow them"""
     user_to_block = get_object_or_404(User, id=user_id)
 
-    # Vérifie si l'utilisateur est déjà bloqué
+    # Checks if the user is already blocked
     block_relation, created = UserBlocks.objects.get_or_create(
         user=request.user,
         blocked_user=user_to_block
     )
-
 
     return redirect("follow_user")
 
@@ -79,6 +78,5 @@ def block_user(request, user_id):
 def unblock_user(request, user_id):
     user_to_unblock = get_object_or_404(User, id=user_id)
     UserBlocks.objects.filter(user=request.user, blocked_user=user_to_unblock).delete()
-
 
     return redirect("follow_user")
