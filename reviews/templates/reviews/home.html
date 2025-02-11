@@ -6,17 +6,19 @@
 <div class="container mt-4">
     <h2 class="text-center">Flux</h2>
 
-    <!-- Boutons pour créer une critique ou un ticket -->
+    <!-- Buttons to create a critic or a review -->
     <div class="d-flex justify-content-center gap-3 mb-4">
-        <a href="{% url 'ticket_create' %}" class="btn btn-primary btn-lg">
+        <a href="{% url 'ticket_create' %}" class="btn btn-primary btn-lg" role="button"
+         aria-label="Demander une critique de livre">
             Demander une critique
         </a>
-        <a href="{% url 'ticket_and_review_upload' %}" class="btn btn-secondary btn-lg">
+        <a href="{% url 'ticket_and_review_upload' %}" class="btn btn-secondary btn-lg" role="button"
+         aria-label="Créer une critique de livre">
             Créer une critique
         </a>
     </div>
 
-    <!-- Conteneur du flux -->
+    <!-- Flux container -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             {% for instance in paged_tickets_and_reviews %}
@@ -38,25 +40,33 @@
     </div>
 
     <!-- Pagination -->
-    <nav aria-label="Pagination" class="d-flex justify-content-center mt-4">
+    <nav aria-label="Pagination des posts" class="d-flex justify-content-center mt-4">
         <ul class="pagination">
             {% if paged_tickets_and_reviews.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1">« Première</a>
+                    <a class="page-link" href="?page=1"
+                    aria-label="Aller à la première page">« Première</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.previous_page_number }}">Précédente</a>
+                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.previous_page_number }}"
+                    aria-label="Aller à la page précedente">Précédente</a>
                 </li>
             {% endif %}
+
             <li class="page-item disabled">
-                <span class="page-link">Page {{ paged_tickets_and_reviews.number }} de {{ paged_tickets_and_reviews.paginator.num_pages }}</span>
+                <span class="page-link">Page {{ paged_tickets_and_reviews.number }} de
+                    {{ paged_tickets_and_reviews.paginator.num_pages }}</span>
             </li>
+
             {% if paged_tickets_and_reviews.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.next_page_number }}">Suivante</a>
+                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.next_page_number }}"
+                    aria-label="Aller à la page suivante"
+                    >Suivante</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.paginator.num_pages }}">Dernière »</a>
+                    <a class="page-link" href="?page={{ paged_tickets_and_reviews.paginator.num_pages }}"
+                    aria-label="Aller à la dernière page">Dernière »</a>
                 </li>
             {% endif %}
         </ul>

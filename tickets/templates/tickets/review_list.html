@@ -6,14 +6,14 @@
 <ul>
   {% for review in reviews %}
     <li>
-      <strong><a href="{% url 'review_detail' review.ticket.id review.id %}">{{ review.headline }}</a></strong><br>
+      <strong><a href="{% url 'review_detail' review.ticket.id review.id %}" aria-label="Titre de la critique">{{ review.headline }}</a></strong><br>
       {{ review.body }}<br>
       <em>Par {{ review.user.username }}, le {{ review.time_created }}</em><br>
       {% if review.image %}
         <img src="{{ review.image.url }}" alt="Image de la critique" width="100">
       {% endif %}
       {% if review.user == request.user %}
-        <a href="{ url 'review_update' review.ticket.id review.id">Modifier</a>
+        <a href="{ url 'review_update' review.ticket.id review.id" role="button">Modifier</a>
         <a href="">Supprimer</a>
       {% endif %}
     </li>

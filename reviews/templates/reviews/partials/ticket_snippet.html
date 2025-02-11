@@ -12,7 +12,7 @@
     {% if ticket.image %}
         <div class="ms-3">
             <img src="{{ ticket.image.url }}" class="img-fluid rounded shadow-sm"
-                 alt="Image Ticket" style="max-width: 250px; height: auto;">
+                 alt="Image du ticket" style="max-width: 250px; height: auto;">
         </div>
     {% endif %}
 </div>
@@ -21,7 +21,8 @@
 <!-- Button to write a review -->
 {% if ticket.review_set.count == 0 and ticket.user.id in followed_users %}
     <div class="d-flex justify-content-center mt-2">
-        <a href="{% url 'review_create' ticket.id %}" class="btn btn-secondary btn-lg">
+        <a href="{% url 'review_create' ticket.id %}" class="btn btn-secondary btn-lg"
+           role="button" aria-label="Créer la critique">
             Créer une critique
         </a>
     </div>

@@ -25,11 +25,11 @@
                             {% include "reviews/partials/ticket_snippet.html" with ticket=instance %}
                             <div class="mt-3 d-flex justify-content-between">
                                 <a href="{% url 'ticket_update' instance.id %}?next={{ request.get_full_path }}"
-                                   class="btn btn-warning btn-sm">
+                                   class="btn btn-warning btn-sm" aria-label="Modifier le ticket">
                                     <i class="bi bi-pencil"></i> Modifier
                                 </a>
                                 <a href="{% url 'ticket_delete' instance.id %}?next={{ request.get_full_path }}"
-                                   class="btn btn-danger btn-sm">
+                                   class="btn btn-danger btn-sm" aria-label="Supprimer le ticket">
                                     <i class="bi bi-trash"></i> Supprimer
                                 </a>
                             </div>
@@ -40,10 +40,12 @@
                         <div class="card-body">
                             {% include "reviews/partials/review_snippet.html" with review=instance %}
                             <div class="mt-3 d-flex justify-content-between">
-                                <a href="{% url 'review_update' instance.ticket.id instance.id %}" class="btn btn-warning btn-sm">
+                                <a href="{% url 'review_update' instance.ticket.id instance.id %}"
+                                   class="btn btn-warning btn-sm" aria-label="Modifier la critique">
                                     <i class="bi bi-pencil"></i> Modifier
                                 </a>
-                                <a href="{% url 'review_delete' instance.ticket.id instance.id %}" class="btn btn-danger btn-sm">
+                                <a href="{% url 'review_delete' instance.ticket.id instance.id %}"
+                                   class="btn btn-danger btn-sm" aria-label="Supprimer la critique">
                                     <i class="bi bi-trash"></i> Supprimer
                                 </a>
                             </div>
@@ -61,10 +63,11 @@
         <ul class="pagination">
             {% if paged_posts.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1">« Première</a>
+                    <a class="page-link" href="?page=1" aria-label="Accéder à la première page">« Première</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_posts.previous_page_number }}">Précédente</a>
+                    <a class="page-link" href="?page={{ paged_posts.previous_page_number }}"
+                       aria-label="Accéder à la page précédente">Précédente</a>
                 </li>
             {% endif %}
             <li class="page-item disabled">
@@ -72,10 +75,12 @@
             </li>
             {% if paged_posts.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_posts.next_page_number }}">Suivante</a>
+                    <a class="page-link" href="?page={{ paged_posts.next_page_number }}"
+                       aria-label="Acceder à la page suivante">Suivante</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ paged_posts.paginator.num_pages }}">Dernière »</a>
+                    <a class="page-link" href="?page={{ paged_posts.paginator.num_pages }}"
+                       aria-label="Accéder à la dernière page">Dernière »</a>
                 </li>
             {% endif %}
         </ul>

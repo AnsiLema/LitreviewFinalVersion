@@ -4,15 +4,15 @@
 <!-- Informations de la critique -->
 <div class="d-flex align-items-center">
     <div class="flex-grow-1">
-        <h5 class="fw-bold">{{ review.headline }}</h5>
-        <p class="text-warning fs-5">{{ review.rating|rating_into_stars }}</p>
-        <p class="text-muted">{{ review.body }}</p>
-        <p class="text-muted"><strong>Publié par {% get_uploader_display review.user %}</strong></p>
+        <h5 class="fw-bold" aria-label="Titre de la critique">{{ review.headline }}</h5>
+        <p class="text-warning fs-5" aria-label="Note de la critique">{{ review.rating|rating_into_stars }}</p>
+        <p class="text-muted" aria-label="Texte de la critique">{{ review.body }}</p>
+        <p class="text-muted" aria-label="Information de la publication"><strong>Publié par {% get_uploader_display review.user %}</strong></p>
         <p>{{ review.time_created|get_posted_at_display }}</p>
     </div>
     {% if review.image %}
         <div class="ms-3">
-            <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Critique"
+            <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm" alt="Image de la critique"
                  style="max-width: 250px; height: auto;">
         </div>
     {% endif %}
@@ -24,12 +24,12 @@
     </div>
     <div class="card-body d-flex align-items-center">
         <div class="flex-grow-1">
-            <h6 class="fw-bold">{{ review.ticket.title }}</h6>
-            <p class="text-muted">{{ review.ticket.description }}</p>
+            <h6 class="fw-bold" aria-label="Titre de la demande de critique">{{ review.ticket.title }}</h6>
+            <p class="text-muted" aria-label="description de la demande de critique">{{ review.ticket.description }}</p>
         </div>
         {% if review.ticket.image %}
             <div class="ms-3">
-                <img src="{{ review.ticket.image.url }}" class="img-fluid rounded shadow-sm" alt="Image Ticket"
+                <img src="{{ review.ticket.image.url }}" class="img-fluid rounded shadow-sm" alt="Image du ticket"
                      style="max-width: 200px; height: auto;">
             </div>
         {% endif %}

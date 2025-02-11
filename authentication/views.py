@@ -24,7 +24,7 @@ def signup_page(request):
 
 @login_required
 def follow_user(request):
-    """Permet de suivre un utilisateur"""
+    """Allows user to follow a user"""
     form = FollowUserForm(user=request.user)
     message = ""
 
@@ -54,7 +54,7 @@ def follow_user(request):
 
 @login_required
 def unfollow_user(request, user_id):
-    """Permet de se désabonner d'un utilisateur"""
+    """Allows user to unsubscribe from a user"""
     user_to_unfollow = get_object_or_404(User, id=user_id)
     UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow).delete()
     return redirect("follow_user")
@@ -62,7 +62,7 @@ def unfollow_user(request, user_id):
 
 @login_required
 def block_user(request, user_id):
-    """Permet de bloquer un utilisateur sans avoir besoin de le suivre"""
+    """Allows user to block a user without having to follow them"""
     user_to_block = get_object_or_404(User, id=user_id)
 
     # Vérifie si l'utilisateur est déjà bloqué
@@ -71,17 +71,14 @@ def block_user(request, user_id):
         blocked_user=user_to_block
     )
 
-    print(f"✅ {request.user.username} a bloqué {user_to_block.username}")
 
     return redirect("follow_user")
 
 
 @login_required
 def unblock_user(request, user_id):
-    """Permet de débloquer un utilisateur"""
     user_to_unblock = get_object_or_404(User, id=user_id)
     UserBlocks.objects.filter(user=request.user, blocked_user=user_to_unblock).delete()
 
-    print(f"✅ {request.user.username} a débloqué {user_to_unblock.username}")
 
     return redirect("follow_user")
