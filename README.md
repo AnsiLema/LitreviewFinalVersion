@@ -157,5 +157,5 @@ LitReviewFinalVersion/
 
 ## 📧 Contact
 
-Pour toute question ou suggestion, n'hésitez pas à nous contacter par email :  
+Réalisé par A'nsi. N'hésitez pas à me contacter par email :  
 **ansilema@gmail.com**
