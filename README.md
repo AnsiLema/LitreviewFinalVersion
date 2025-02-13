@@ -28,18 +28,20 @@ LITRevu est une application web développée en Django permettant aux utilisateu
 1. Clonez le projet :
    ```bash
    git clone https://github.com/AnsiLema/LitreviewFinalVersion.git
-   cd LitReviewFinalVersion
+   
    ```
 
 2. Créez et activez un environnement virtuel :
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # Sur macOS/Linux
-   .venv\Scripts\activate     # Sur Windows
+   .venv/Scripts/activate     # Sur Windows
    ```
 
 3. Installez les dépendances Python :
    ```bash
+   cd LitReviewFinalVersion
+   
    pip install -r requirements.txt
    ```
 
