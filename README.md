@@ -12,6 +12,7 @@ LITRevu est une application web développée en Django permettant aux utilisateu
 - **Flux personnalisé** : Affichage des publications des utilisateurs suivis et des critiques en réponse à ses propres tickets.
 - **Blocage des utilisateurs** : Empêchez certains utilisateurs de voir votre contenu.
 - **Pagination** : Navigation fluide à travers les publications.
+- **Accessibilié** : Interface qui respecte les bonnes pratiques d'accessibilité du reférenciel WCAG
 
 ---
 
@@ -20,8 +21,6 @@ LITRevu est une application web développée en Django permettant aux utilisateu
 ### 1️⃣ Prérequis
 
 - Python 3.12+
-- Django 4.2+
-- Un environnement virtuel Python
 
 ### 2️⃣ Installation
 
@@ -34,7 +33,9 @@ LITRevu est une application web développée en Django permettant aux utilisateu
 2. Créez et activez un environnement virtuel :
    ```bash
    python -m venv .venv
+   
    source .venv/bin/activate  # Sur macOS/Linux
+   
    .venv/Scripts/activate     # Sur Windows
    ```
 
@@ -138,7 +139,7 @@ LitReviewFinalVersion/
   Les utilisateurs peuvent créer des tickets avec des informations sur une œuvre (titre, description), à laquelle d'autres utilisateurs peuvent répondre avec des critiques.
 
 - **Critiques** :  
-  Les critiques incluent un avis (qualitatif et quantitatif) sur l'œuvre ciblée par un ticket.
+  Les critiques incluent un avis sur l'œuvre ciblée par un ticket.
 
 - **Suivi et blocage d'utilisateurs** :  
   Chaque utilisateur peut librement suivre ou bloquer d'autres profils pour personnaliser son flux d'affichage.
