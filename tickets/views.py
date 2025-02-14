@@ -162,18 +162,18 @@ def review_delete(request, ticket_id, review_id):
 
 @login_required
 def posts(request):
-    """Affiche tous les tickets et critiques de l'utilisateur connecté"""
+    """Shows all tickets and reviews of the logged in user"""
     tickets = Ticket.objects.filter(user=request.user).annotate(post_type=Value("ticket", output_field=CharField()))
     reviews = Review.objects.filter(user=request.user).annotate(post_type=Value("review", output_field=CharField()))
 
-    # Vérification dans la console Django
-    print(f"🎟️ {request.user.username} - Tickets récupérés : {len(tickets)}")
-    print(f"📝 {request.user.username} - Reviews récupérées : {len(reviews)}")
+    # Checking in the Django Console
+    print(f" {request.user.username} - Tickets récupérés : {len(tickets)}")
+    print(f" {request.user.username} - Reviews récupérées : {len(reviews)}")
 
-    # Fusionner les posts et trier par date (du plus récent au plus ancien)
+    # Merge posts and sort by date (newest to oldest)
     user_posts = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
 
-    # Ajouter une pagination
+    # Add pagination
     paginator = Paginator(user_posts, 5)  # 5 publications par page
     page = request.GET.get("page")
     paged_posts = paginator.get_page(page)

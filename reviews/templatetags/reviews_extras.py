@@ -43,5 +43,5 @@ def rating_into_stars(value):
 
 @register.filter
 def add_class(field, css_class):
-    """Ajoute une classe CSS à un champ de formulaire Django"""
+    """Add a CSS class to a Django form field"""
     return field.as_widget(attrs={"class": css_class})

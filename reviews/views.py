@@ -9,7 +9,7 @@ from tickets.models import Ticket, Review
 
 @login_required
 def home(request):
-    """Affiche le fil d'actualité avec abonnements et blocages."""
+    """Shows the news feed with subscriptions and blocks."""
 
     followed_users = list(UserFollows.objects.filter(user=request.user)
                           .values_list('followed_user_id', flat=True))
@@ -34,9 +34,6 @@ def home(request):
         Q(user__in=blocked_users) | Q(user__in=users_who_blocked_me)
     ).annotate(post_type=Value("review", output_field=CharField()))
 
-    #  DEBUG : Check results
-    print(f"🎟️ Tickets trouvés : {tickets.count()}")
-    print(f"📝 Reviews trouvées : {reviews.count()}")
 
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
