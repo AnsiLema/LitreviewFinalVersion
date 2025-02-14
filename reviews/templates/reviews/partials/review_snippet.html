@@ -1,7 +1,7 @@
 {% load reviews_extras %}
 
 
-<!-- Informations de la critique -->
+<!-- Review information -->
 <div class="d-flex align-items-center">
     <div class="flex-grow-1">
         <h5 class="fw-bold" aria-label="Titre de la critique">{{ review.headline }}</h5>
@@ -17,7 +17,7 @@
         </div>
     {% endif %}
 </div>
-<!-- Informations du ticket associé -->
+<!-- Associated ticket information -->
 <div class="card mb-3 shadow-sm">
     <div class="card-header bg-light">
         <p class="mb-0 text-muted">En réponse à un ticket de <strong>{{ review.ticket.user.username }}</strong></p>

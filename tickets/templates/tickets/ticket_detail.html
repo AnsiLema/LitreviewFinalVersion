@@ -2,25 +2,25 @@
 {% block content %}
 
 <div class="container mt-4">
-    <!-- Bouton Retour -->
+    <!-- return button -->
     <div class="mb-3">
         <a href="{% url 'home' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Retour</a>
     </div>
 
-    <!-- Carte du Ticket -->
+    <!-- Ticket card -->
     <div class="card shadow-sm">
         <div class="card-body">
             <h2 class="text-primary text-center">{{ ticket.title }}</h2>
 
             <div class="d-flex justify-content-between">
-                <!-- Détails du ticket -->
+                <!-- Ticket Detail -->
                 <div>
                     <p class="text-muted"><strong>Publié par {{ ticket.user.username }}</strong></p>
                     <p><small class="text-muted">Crée le {{ ticket.time_created }}</small></p>
                     <p>{{ ticket.description }}</p>
                 </div>
 
-                <!-- Image du ticket -->
+                <!-- Ticket image -->
                 {% if ticket.image %}
                     <div class="ms-3">
                         <img src="{{ ticket.image.url }}" class="img-fluid rounded shadow-sm"
@@ -29,7 +29,7 @@
                 {% endif %}
             </div>
 
-            <!-- Boutons d'actions -->
+            <!-- Action button -->
             {% if ticket.user == request.user %}
                 <div class="mt-3">
                     <a href="{% url 'ticket_update' ticket.id %}" class="btn btn-warning btn-sm">
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <!-- Liste des Critiques -->
+    <!-- Review list -->
     <h3 class="mt-4">📝 Critiques</h3>
     {% for review in reviews %}
         <div class="card mt-3 shadow-sm">
@@ -53,7 +53,7 @@
                 <p>{{ review.body }}</p>
                 <p>🌟 Note: <strong>{{ review.rating }}/5</strong></p>
 
-                <!-- Image associée à la critique -->
+                <!-- Image associated with review -->
                 {% if review.image %}
                     <div class="text-center mt-2">
                         <img src="{{ review.image.url }}" class="img-fluid rounded shadow-sm"
@@ -63,7 +63,7 @@
                     <p>Aucune image</p>
                 {% endif %}
 
-                <!-- Boutons d'action pour la critique -->
+                <!-- Action button for a review -->
                 {% if review.user == request.user %}
                     <div class="mt-3">
                         <a href="{% url 'review_update' ticket.id review.id %}" class="btn btn-warning btn-sm"
@@ -82,7 +82,7 @@
         <p class="text-center text-muted">Aucune critique pour le moment.</p>
     {% endfor %}
 
-    <!-- Bouton pour ajouter une critique -->
+    <!-- Button to add a review -->
     {% if user != ticket.user and reviews|length == 0 %}
         <div class="text-end mt-3">
             <a href="{% url 'review_create' ticket.id %}" class="btn btn-primary">

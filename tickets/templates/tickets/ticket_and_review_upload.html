@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <!-- Bouton Retour -->
+    <!-- Return Button -->
     <div class="mb-3">
         <a href="{% url 'home' %}" class="btn btn-outline-secondary">Retour</a>
     </div>
@@ -13,20 +13,20 @@
         Vous pouvez soumettre une critique en créant un ticket et une critique en même temps.
     </p>
 
-    <!-- Formulaire -->
+    <!-- Form -->
     <div class="card shadow-sm mx-auto">
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- Formulaire du Ticket -->
+                <!-- Ticket Form -->
                 <h4 class="text-primary text-center">Informations sur le livre</h4>
                 <div class="mb-3 text-left">
                     {{ ticket_form.title.label_tag }}
-                    {{ ticket_form.title|add_class:"form-control text-center mx-auto w-85" }}
+                    {{ ticket_form.title|add_class:"form-control text-left mx-auto w-85" }}
 
                     {{ ticket_form.description.label_tag }}
-                    {{ ticket_form.description|add_class:"form-control text-center mx-auto w-85" }}
+                    {{ ticket_form.description|add_class:"form-control text-left mx-auto w-85" }}
 
                     {{ ticket_form.image.label_tag }}
                     <div class="text-start mt-2">
@@ -36,7 +36,7 @@
 
                 <hr>
 
-                <!-- Formulaire de la Critique -->
+                <!-- Review Form -->
                 <h4 class="text-success text-center">Votre critique</h4>
                 <div class="mb-3">
                     {{ review_form.headline.label_tag }}
@@ -53,7 +53,7 @@
 
                 </div>
 
-                <!-- Boutons d'action -->
+                <!-- Action Button -->
                 <div class="d-flex justify-content-between mt-4">
                     <div>
                         <label class="form-label"><strong>Ajouter un fichier :</strong></label>

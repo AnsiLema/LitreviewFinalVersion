@@ -2,7 +2,6 @@ from itertools import chain
 
 from django.core.paginator import Paginator
 from django.db.models import CharField, Value
-from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Ticket, Review
 from django.contrib.auth.decorators import login_required
@@ -31,6 +30,9 @@ def ticket_create(request):
 @login_required
 def ticket_update(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
+    if ticket.user != request.user:
+        return redirect('home')
+
     form = forms.TicketForm(instance=ticket)
 
     next_url = request.GET.get("next", "posts")
@@ -49,6 +51,8 @@ def ticket_update(request, ticket_id):
 
 def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
+    if ticket.user != request.user:
+        return redirect('home')
 
     next_url = request.GET.get("next", "posts")
 
@@ -125,7 +129,7 @@ def review_update(request, ticket_id, review_id):
     review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
 
     if review.user != request.user:
-        return HttpResponseForbidden("Vous ne pouyez modifier que vos propres critiques.")
+        return redirect("home")
 
     form = forms.ReviewForm(instance=review)
 
@@ -150,8 +154,10 @@ def review_update(request, ticket_id, review_id):
 @login_required
 def review_delete(request, ticket_id, review_id):
     review = get_object_or_404(Review, ticket_id=ticket_id, id=review_id)
+
     if review.user != request.user:
-        HttpResponseForbidden("Vous ne pouyez supprimer que vos propres critiques.")
+        return redirect("home")
+
     if request.method == "POST":
         review.delete()
         return redirect("ticket_detail", ticket_id=review.ticket.id)
@@ -165,10 +171,6 @@ def posts(request):
     """Shows all tickets and reviews of the logged in user"""
     tickets = Ticket.objects.filter(user=request.user).annotate(post_type=Value("ticket", output_field=CharField()))
     reviews = Review.objects.filter(user=request.user).annotate(post_type=Value("review", output_field=CharField()))
-
-    # Checking in the Django Console
-    print(f" {request.user.username} - Tickets récupérés : {len(tickets)}")
-    print(f" {request.user.username} - Reviews récupérées : {len(reviews)}")
 
     # Merge posts and sort by date (newest to oldest)
     user_posts = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
