@@ -83,7 +83,7 @@
     {% endfor %}
 
     <!-- Bouton pour ajouter une critique -->
-    {% if user != ticket.user %}
+    {% if user != ticket.user and reviews|length == 0 %}
         <div class="text-end mt-3">
             <a href="{% url 'review_create' ticket.id %}" class="btn btn-primary">
                 <i class="bi bi-chat-left-text"></i> Répondre avec une critique
