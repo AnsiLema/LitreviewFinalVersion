@@ -1,7 +1,7 @@
 asgiref==3.8.1
 astroid==2.15.8
 beautifulsoup4==4.13.1
-Django==4.2.18
+Django==4.2.25
 django-bootstrap-v5==1.0.11
 django-crispy-forms==2.3
 flake8==6.1.0
